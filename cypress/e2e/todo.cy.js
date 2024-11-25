@@ -1,0 +1,67 @@
+describe('ejercicios cypress', () => {
+    it('Ejercicio 1 - Crear tarea', () => {
+      cy.visit('https://todomvc.com/examples/react/dist/')
+      cy.get('[data-testid="text-input"]').type("comprar el pan{enter}")
+      cy.get('[data-testid="todo-item-label"]').contains("comprar el pan")
+    })
+
+    it('Ejercicio 2 - Marcar tarea como completada', () => {
+        cy.visit('https://todomvc.com/examples/react/dist/')
+        cy.get('[data-testid="text-input"]').type("comprar el pan{enter}")
+        cy.get('[data-testid="todo-item-toggle"]').click()
+        cy.get('[data-testid="footer-navigation"] > :nth-child(3) > a').click()
+        cy.get('[data-testid="todo-item-label"]').contains("comprar el pan")
+    })
+
+    it('Ejercicio 3 - Desmarcar tarea completada', () => {
+        cy.visit('https://todomvc.com/examples/react/dist/')
+        cy.get('[data-testid="text-input"]').type("comprar el pan{enter}")
+        cy.get('[data-testid="todo-item-toggle"]').click()
+        cy.get('[data-testid="footer-navigation"] > :nth-child(3) > a').click()
+        cy.get('[data-testid="todo-item-label"]').contains("comprar el pan")
+        cy.get('[data-testid="todo-item-toggle"]').click()
+        cy.get(':nth-child(2) > a').click()
+        cy.get('[data-testid="todo-item-label"]').contains("comprar el pan")
+    })
+
+    it('Ejercicio 4 - Editar tarea', () => {
+        cy.visit('https://todomvc.com/examples/react/dist/')
+        cy.get('[data-testid="text-input"]').type("comprar el pan{enter}")
+        cy.get('[data-testid="todo-item-label"]').contains("comprar el pan").dblclick()
+        cy.focused().clear().type("comprar leche{enter}")
+        cy.get('[data-testid="todo-item-label"]').contains("comprar leche")
+    })
+
+    it('Ejercicio 5 - Borrar tarea', () => {
+        cy.visit('https://todomvc.com/examples/react/dist/')
+        cy.get('[data-testid="text-input"]').type("comprar el pan{enter}")
+        cy.get('[data-testid="todo-item-label"]').contains("comprar el pan")
+        cy.get('[data-testid="todo-item-button"]').click({force: true})
+        cy.get('[data-testid="todo-item-label"]').should('not.exist')
+    })
+
+    it('Ejercicio 6 - Filtrar tareas', () => {
+        cy.visit('https://todomvc.com/examples/react/dist/')
+        cy.get('[data-testid="text-input"]').type("comprar el pan{enter}")
+        cy.get('[data-testid="todo-item-toggle"]').click()
+        cy.get('[data-testid="text-input"]').type("comprar leche{enter}")
+        cy.get('[data-testid="text-input"]').type("comprar queso{enter}")
+        cy.get(':nth-child(3) > .view > [data-testid="todo-item-toggle"]').click()
+        cy.get('[data-testid="text-input"]').type("comprar jamón{enter}")
+        cy.get(':nth-child(4) > .view > [data-testid="todo-item-toggle"]').click()
+        cy.get('[data-testid="text-input"]').type("comprar agua{enter}")
+        cy.get('[data-testid="footer-navigation"] > :nth-child(3) > a').click()
+        cy.get(':nth-child(1) > .view > [data-testid="todo-item-label"]').contains("comprar el pan")
+        cy.get(':nth-child(2) > .view > [data-testid="todo-item-label"]').contains("comprar queso")
+        cy.get(':nth-child(3) > .view > [data-testid="todo-item-label"]').contains("comprar jamón")
+        cy.get(':nth-child(2) > a').click()
+        cy.get(':nth-child(1) > .view > [data-testid="todo-item-label"]').contains("comprar leche")
+        cy.get(':nth-child(2) > .view > [data-testid="todo-item-label"]').contains("comprar agua")
+        cy.get(':nth-child(1) > a').click()
+        cy.get(':nth-child(1) > .view > [data-testid="todo-item-label"]').contains("comprar el pan")
+        cy.get(':nth-child(2) > .view > [data-testid="todo-item-label"]').contains("comprar leche")
+        cy.get(':nth-child(3) > .view > [data-testid="todo-item-label"]').contains("comprar queso")
+        cy.get(':nth-child(4) > .view > [data-testid="todo-item-label"]').contains("comprar jamón")
+        cy.get(':nth-child(5) > .view > [data-testid="todo-item-label"]').contains("comprar agua")
+    })
+  })
